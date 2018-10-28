@@ -1,4 +1,4 @@
-/************************************************************************
+/**************************************************************************
  * @author SAGAR PAUL (paulsagar1a)
  * @category Singleton Design Patters
  * 
@@ -6,7 +6,7 @@
  * access modifier private to public.When you run the above test class, we
  * will notice that hashCode of both the instances are not same that 
  * destroys the singleton pattern.
- ************************************************************************/
+ ***************************************************************************/
 package creational.singleton;
 
 import java.lang.reflect.Constructor;

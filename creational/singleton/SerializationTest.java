@@ -2,7 +2,7 @@
  * @author SAGAR PAUL (paulsagar1a)
  * @category Singleton Design Patters
  * 
- * Deserialization always return new object no matter whether it is singleton class.
+ * De-serialization always return new object no matter whether it is singleton class.
  * So to resolve this we need to provide readResolve method to the singleton class.
  *******************************************************************************/
 package creational.singleton;
