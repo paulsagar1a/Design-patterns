@@ -5,7 +5,7 @@
  * This thread safe singleton class is same as lazy initialized singleton
  * except it can be used in multi-threaded environment. Because this 
  * provides class level synchronization (static synchronization) to
- * prevent access from multiple thread at same time
+ * prevent access from multiple thread at same time.
  ************************************************************************/
 package creational.singleton;
 

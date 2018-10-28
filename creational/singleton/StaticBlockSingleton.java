@@ -3,7 +3,7 @@
  * @category Singleton Design Patters
  * 
  * Static block initialization of singleton method is similar to eager
- * initialization except it use static block to initialize singleton 
+ * initialization except it use static block to initialize singleton
  * instance. It also provides exception handling. But it is also not a 
  * good practice as it initializes object at the time of class loading.
  ************************************************************************/

@@ -4,7 +4,7 @@
  * 
  * Thread safe implementation works fine and provides thread-safety but 
  * it reduces the performance because of cost associated with the 
- * synchronized method, although we need it only for the first few 
+ * synchronized method, although we need it only for the first few
  * threads who might create the separate instances. To avoid this extra 
  * overhead every time, double checked locking principle is used. In this
  * approach, the synchronized block is used inside the if condition with

@@ -5,7 +5,7 @@
  * This creational singleton method does not initialize class if the 
  * instance is already present in the JVM. This pattern works fine in case
  * of single threaded environment but in multi-threaded environment it
- * can cause issue; if multiple threads want to get access of the instance 
+ * can cause issue; if multiple threads want to get access of the instance
  * then each thread will get different instances of the same singleton 
  * class. For that we need to use thread-safe singleton class.
  ************************************************************************/

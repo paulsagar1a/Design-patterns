@@ -2,7 +2,7 @@
  * @author SAGAR PAUL (paulsagar1a)
  * @category Singleton Design Patters
  * 
- * This class instance is created at the time of class loading. This is 
+ * This class instance is created at the time of class loading. This is
  * easist method to create singleton object, but it has a draw back that
  * instance is created even though client application might not need it.
  ************************************************************************/

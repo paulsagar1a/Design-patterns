@@ -3,7 +3,7 @@
  * @category Singleton Design Patters
  * 
  * A Bill Pugh Singleton is based on the “initialization on demand holder”
- * idiom. This idiom uses inner classes and does not use any 
+ * idiom. This idiom uses inner classes and does not use any
  * synchronization construct. It uses static blocks, but in a different 
  * way — and suggests using static inner classes.
  ************************************************************************/
