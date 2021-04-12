@@ -1,0 +1,504 @@
+//creational design pattern
+//structural design pattern
+//behavioural design pattern
+
+SOLID principle
+S = Single Responsibility principle
+O = Open-Close principle (Open for extension but close for updation)
+L = Liskov Substitution principle
+I = Interface Segregation Principle (avoid interface polution)
+D = Dependency Inversion Principle
+
+
+//creational design pattern
+	-- Singleton Design pattern
+	-- Factory design pattern
+	-- Builder design pattern
+	
+==================================================================================================
+
+//Singleton Design pattern
+class Singleton {
+	private static Singleton instance = null;
+	
+	private Singleton() {}
+	
+	public static Singleton getInstance() {
+		if(instance == null) {
+			synchronized(Singleton.class) {
+				if(instance == null) {
+					instance = new Singleton();
+				}
+			}
+		}
+			return instance;
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Factory design pattern
+abstract class IPhone {
+	public IPhone() {
+		System.out.println("New IPhone!");
+	}
+	
+	abstract public IPhone getPhone();
+}
+
+class ChennaiFactory extends IPhone {
+
+	public IPhone getIPhone() {
+		return new IPhone();
+	}
+	
+}
+
+class NoidaFactory extends IPhone {
+
+	public IPhone getIPhone() {
+		return new IPhone();
+	}
+	
+}
+
+class PhoneRegister {
+	
+	public static IPhone getIPhone(String area) {
+		if("Noida".equalsIgnoreCase(area)) {
+			return new NoidaFactory().getIPhone();
+		} else {
+			return new ChennaiFactory().getIPhone();
+		}
+	}
+}
+
+public class FactoryExecutor {
+	public static void main(String[] args) {
+		IPhone iPhone = PhoneRegister.getIPhone("Noida");
+		
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Builder design pattern
+class BankAccount {
+	private int id; //mandatory
+	private String owner; //mandatory
+	private String address;
+	private float amount;
+	
+	public String toString() {
+	return "[ id="+id+"\n owner="+owner+"\n address="+address+" amount="+amount+" ]";
+	}
+}
+
+class BankAccountBuilder {
+	private int id; //mandatory
+	private String owner; //mandatory
+	private String address;
+	private float amount;
+	BankAccount bankAccount;
+	
+	BankAccountBuilder(int id, String owner) {
+		this.id = id;
+		this.owner = owner;
+	}
+	
+	BankAccountBuilder setAddress(String address) {
+		this.address = address;
+		return BankAccountBuilder;
+	}
+	BankAccountBuilder setAmount(float amount) {
+		this.amount = amount;
+		return BankAccountBuilder;
+	}
+	
+	BankAccount build() {
+		BankAccount account = new BankAccount();
+		account.id = this.id;
+		account.owner = this.owner;
+		account.address = this.address;
+		account.amount = this.amount;
+		return account;
+	}
+}
+
+public class BuilderExecutor {
+	public static void main(String[] args) {
+		BankAccount bankAccount = new BankAccountBuilder(10001456, "Sai Dipak")
+									.setAddress("Bangalore, Karnataka")
+									.setAmount(10000.0F)
+									.build();
+									
+		System.out.println(bankAccount);
+	}
+}
+
+==================================================================================================
+
+//Structural design pattern
+	-- Adapter design pattern
+	-- Decorator design pattern
+	-- Proxy design pattern
+	
+//Adapter design pattern
+interface AdvancedMediaPlayer {
+	public void playMP3(String name);
+	public void playMP4(String name);
+}
+
+class MP3 implements AdvancedMediaPlayer {
+	public MP3() {
+		System.out.println("MP3 media player got instantiated!");
+	}
+	
+	public void playMP3(String name) {
+		System.out.println(name+" is playing");
+	}
+	
+	public void playMP4(String name) {
+		//System.out.println(name+" is playing");
+	}
+}
+
+class MP4 implements AdvancedMediaPlayer {
+	public MP4() {
+		System.out.println("MP4 media player got instantiated!");
+	}
+	
+	public void playMP3(String name) {
+		//System.out.println(name+" is playing");
+	}
+	
+	public void playMP4(String name) {
+		System.out.println(name+" is playing");
+	}
+}
+
+interface MediaPlayer {
+	public void playMedia(String type, String name);
+}
+
+class MediaAdapter implements MediaPlayer {
+	AdvancedMediaPlayer advancedMediaPlayer;
+	
+	public void playMedia(String type, String name) {
+		if("MP3".equalsIgnoreCase(type)) {
+			advancedMediaPlayer = new MP3();
+			advancedMediaPlayer.playMP3(name);
+		} else if("MP4".equalsIgnoreCase(type)) {
+			advancedMediaPlayer = new MP4();
+			advancedMediaPlayer.playMP4(name);
+		} else {
+			System.out.println("Does not support media type "+type);
+		}
+	}
+}
+
+public class AdapterExecutor {
+	public static void main(String[] args) {
+		/*AdvancedMediaPlayer advMediaPlayer = new MP3();
+		advMediaPlayer.playMP3("Ocean Dream");
+		advMediaPlayer.playMP4("Sky Rocket");*/
+		
+		MediaPlayer mediaPlayer = new MediaAdapter();
+		mediaPlayer.playMedia("MP3", "Ocean Dream");
+		mediaPlayer.playMedia("MP4", "Sky Rocket");
+		mediaPlayer.playMedia("VLC", "Rock On");
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+//Decorator design pattern
+interface Pizza {
+	public String getDescription();
+	public float getPrice();
+}
+
+class SimplePizza implements Pizza {
+	String description;
+	float price;
+	
+	public SimplePizza() {
+		description = "Simple Pizza";
+		price = 150.00f;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public float getPrice() {
+		return price;
+	}
+}
+
+class TomatoSlice implements Pizza {
+	Pizza pizza;
+	public TomatoSlice(Pizza pizza) {
+		this.pizza = pizza;
+	}
+	
+	public String getDescription() {
+		return pizza.getDescription()+", tomato slice ";
+	}
+	
+	public float getPrice() {
+		return pizza.getPrice()+25.00f;
+	}
+}
+
+
+class Barbeque implements Pizza {
+	Pizza pizza;
+	public Barbeque(Pizza pizza) {
+		this.pizza = pizza;
+	}
+	
+	public String getDescription() {
+		return pizza.getDescription()+", Barbeque ";
+	}
+	
+	public float getPrice() {
+		return pizza.getPrice()+155.00f;
+	}
+}
+
+
+class Cheese implements Pizza {
+	Pizza pizza;
+	public Cheese(Pizza pizza) {
+		this.pizza = pizza;
+	}
+	
+	public String getDescription() {
+		return pizza.getDescription()+", Cheese ";
+	}
+	
+	public float getPrice() {
+		return pizza.getPrice()+50.00f;
+	}
+}
+
+public class DecoratorExecutor {
+	public static void main(String[] args) {
+		Pizza pizza = new SimplePizza();
+		pizza = new TomatoSlice(pizza);
+		pizza = new Barbeque(pizza);
+		pizza = new Cheese(pizza);
+		
+		System.out.println("Pizza description = "+pizza.getDescription()+"\nprice="+pizza.getPrice());
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+//Proxy design pattern
+class Ticket {
+	private String user;
+	public MovieTicket(String user) {
+		System.out.println(user+" gets a ticket!");
+	}
+}
+
+class ProxyPass {
+	
+	public static Ticket getTicket(String user) {
+		if("VIP".equalsIgnoreCase(user)) {
+			return new Movie(user);
+		} else {
+			System.out.println(user+" can not get the ticket.");
+			return null;
+		}
+	}
+}
+
+public class ProxyExecutor {
+	public static void main(String[] args) {
+		Ticket ticket1 = ProxyPass.getTicket("VIP");
+		Ticket ticket2 = ProxyPass.getTicket("Member");
+	}
+}
+
+==================================================================================================
+
+//Behavioural design pattern
+	-- Strategy design pattern
+	-- Observer design pattern
+	-- Iterator design pattern
+	
+//Strategy design pattern
+
+interface Strategy {
+	public int calculate(int a, int b);
+}
+
+class AddOperation implements Strategy {
+	public int calculate(int a, int b) {
+		return a+b;
+	}
+}
+
+class Subtract implements Strategy {
+	public int calculate(int a, int b) {
+		return a-b;
+	}
+}
+
+class Multiply implements Strategy {
+	public int calculate(int a, int b) {
+		return a*b;
+	}
+}
+
+class Context {
+	private Strategy stategy;
+	
+	public Context(Strategy stategy) {
+		this.stategy = stategy;
+	}
+	
+	public int executeStrategy(int a, int b) {
+		return stategy.calculate(a, b);
+	}
+}
+
+public class StrategyExecutor {
+	public static void main(String[] args) {
+		Context context = new Context(new AddOperation());
+		context.executeStrategy(5, 8);
+		
+		context = new Context(new Subtract());
+		context.executeStrategy(8, 6);
+		
+		context = new Context(new Multiply());
+		context.executeStrategy(3, 6);
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+//Observer design pattern
+
+interface Subject {
+	public void attach(Observer observer);
+	public void detach(Observer observer);
+	public void notifyObserver();
+	public void newNews(String news);
+}
+
+interface Observer {
+	public void report(String news);
+}
+
+class ANI implements Subject {
+	List<Observer> observers;
+	String news;
+	
+	public ANI() {
+		observers = new ArrayList<>();
+	}
+	
+	public void newNews(String news) {
+		this.news = news;
+		notifyObserver();
+	}
+	
+	public void attach(Observer observer) {
+		observers.add(observer);
+	}
+	
+	public void detach(Observer observer) {
+		observers.remove(observer);
+	}
+	
+	public void notifyObserver() {
+		for(Observer observer : observers) {
+			observer.report(news);
+		}
+	}
+}
+
+class IndiaTV implements Observer {
+	public void report(String news) {
+		System.out.println("India TV : "+news);
+	}
+}
+
+
+class TimesNow implements Observer {
+	public void report(String news) {
+		System.out.println("Times Now : "+news);
+	}
+}
+
+public class ObserverExecutor {
+	public static void main(String[] args) {
+		Subject subject = new ANI();
+		
+		Observer indiaTV = new IndiaTV();
+		Observer timesNow = new TimesNow();
+		
+		subject.attach(indiaTV);
+		subject.attach(timesNow);
+		
+		subject.newNews("Today's temperature is 25C");
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+//Iterator design pattern
+interface Iterator {
+	public boolean hasNext();
+	public Object next();
+}
+
+interface Container {
+	public Iterator iterate();
+}
+
+class NameIterator implements Iterator {
+	String[] arr;
+	int i;
+	public NameIterator(String[] arr) {
+		this.arr = arr;
+	}
+	
+	public boolean hasNext() {
+		if(i<arr.length()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Object next() {
+		if(this.hasNext()) {
+			return arr[i];
+		}
+		return null;
+	}
+}
+
+class CollectionOfName implements Container {
+	String[] arr = {"Suman", "Paromita", "Mrinal", "Harnoor"};
+	public CollectionOfName () {}
+	
+	public Iterator iterate() {
+		return new NameIterator(arr);
+	}
+}
+
+
+public class IteratorExecutor {
+	public static void main(String[] args) {
+		Container container = new CollectionOfName();
+		
+		Iterator itr = container.iterate();
+		
+		while(itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+	}
+}
